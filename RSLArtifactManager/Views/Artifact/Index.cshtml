@@ -1,0 +1,138 @@
+﻿@model IEnumerable<RSLArtifactManager.Models.Artifact>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Edit">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Level)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stars)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Set)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rarity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Main)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sub1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sub2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sub3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sub4)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpgradesSub1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpgradesSub2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpgradesSub3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpgradesSub4)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CanUpgrade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SetBonusDescription)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Level)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stars)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Set)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rarity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Main)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sub1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sub2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sub3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sub4)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpgradesSub1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpgradesSub2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpgradesSub3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpgradesSub4)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CanUpgrade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SetBonusDescription)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { _id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { _id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

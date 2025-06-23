@@ -1,0 +1,348 @@
+﻿@model RSLArtifactManager.Models.Artifact
+
+@{
+  ViewData["Title"] = "Edit";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<div>
+  <h4>Artifact</h4>
+  @using (Html.BeginForm("Save", "Artifact", FormMethod.Post))
+  {
+    @Html.HiddenFor(x => x.ID)
+    @Html.HiddenFor(x => x.Stats.ID)
+
+    <hr />
+    <dl class="row">
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Level)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DropDownListFor(model => model.Level, Enumerable.Range(1, Artifact.MaxLevel).Select(x => new SelectListItem { Text = x.ToString(), Value = x.ToString() }))
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Stars)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DropDownListFor(model => model.Stars, Enumerable.Range(1, Artifact.MaxStars).Select(x => new SelectListItem { Text = x.ToString(), Value = x.ToString() }))
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Set)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DropDownListFor(model => model.Set, Html.GetEnumSelectList<Artifact.ESet>())
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Type)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DropDownListFor(model => model.Type, Html.GetEnumSelectList<Artifact.EType>())
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Rarity)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DropDownListFor(model => model.Rarity, Html.GetEnumSelectList<Artifact.ERarity>())
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Main)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DropDownListFor(model => model.Main, Html.GetEnumSelectList<Global.Stats.EType>())
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Sub1)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DropDownListFor(model => model.Sub1, Html.GetEnumSelectList<Global.Stats.EType>())
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Sub2)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DropDownListFor(model => model.Sub2, Html.GetEnumSelectList<Global.Stats.EType>())
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Sub3)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DropDownListFor(model => model.Sub3, Html.GetEnumSelectList<Global.Stats.EType>())
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Sub4)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DropDownListFor(model => model.Sub4, Html.GetEnumSelectList<Global.Stats.EType>())
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.UpgradesSub1)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DropDownListFor(model => model.UpgradesSub1, Enumerable.Range(0, Artifact.MaxUpgrades + 1).Select(x => new SelectListItem { Text = x.ToString(), Value = x.ToString() }))
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.UpgradesSub2)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DropDownListFor(model => model.UpgradesSub2, Enumerable.Range(0, Artifact.MaxUpgrades + 1).Select(x => new SelectListItem { Text = x.ToString(), Value = x.ToString() }))
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.UpgradesSub3)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DropDownListFor(model => model.UpgradesSub3, Enumerable.Range(0, Artifact.MaxUpgrades + 1).Select(x => new SelectListItem { Text = x.ToString(), Value = x.ToString() }))
+      </dd>
+      <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.UpgradesSub4)
+      </dt>
+      <dd class="col-sm-10">
+        @Html.DropDownListFor(model => model.UpgradesSub4, Enumerable.Range(0, Artifact.MaxUpgrades + 1).Select(x => new SelectListItem { Text = x.ToString(), Value = x.ToString() }))
+      </dd>
+
+      @{
+        Dictionary<string, Global.Stats.EType> statTypes = new Dictionary<string, Global.Stats.EType>();
+        statTypes.Add("Main", Model.Main);
+        statTypes.Add("Sub1", Model.Sub1);
+        statTypes.Add("Sub2", Model.Sub2);
+        statTypes.Add("Sub3", Model.Sub3);
+        statTypes.Add("Sub4", Model.Sub4);
+
+        foreach (KeyValuePair<string, Global.Stats.EType> stats in statTypes)
+        {
+          <dt class="col-sm-2">
+            @Html.DisplayName(stats.Key)
+          </dt>
+          <dd class="col-sm-10">
+
+          </dd>
+
+          if (stats.Value == Global.Stats.EType.HP)
+          {
+            <dt class="col-sm-2">
+              @Html.DisplayNameFor(model => model.Stats.HP)
+            </dt>
+            <dd class="col-sm-10">
+              @Html.TextBoxFor(model => model.Stats.HP)
+            </dd>
+
+            if (stats.Value != Model.Main)
+            {
+              <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Stats.HPe)
+              </dt>
+              <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.Stats.HPe)
+              </dd>
+            }
+          }
+          else if (stats.Value == Global.Stats.EType.HPp)
+          {
+            <dt class="col-sm-2">
+              @Html.DisplayNameFor(model => model.Stats.HPp)
+            </dt>
+            <dd class="col-sm-10">
+              @Html.TextBoxFor(model => model.Stats.HPp)%
+            </dd>
+
+            if (stats.Value != Model.Main)
+            {
+              <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Stats.HPpe)
+              </dt>
+              <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.Stats.HPpe)
+              </dd>
+            }
+          }
+          else if (stats.Value == Global.Stats.EType.ATK)
+          {
+            <dt class="col-sm-2">
+              @Html.DisplayNameFor(model => model.Stats.ATK)
+            </dt>
+            <dd class="col-sm-10">
+              @Html.TextBoxFor(model => model.Stats.ATK)
+            </dd>
+
+            if (stats.Value != Model.Main)
+            {
+              <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Stats.ATKe)
+              </dt>
+              <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.Stats.ATKe)
+              </dd>
+            }
+          }
+          else if (stats.Value == Global.Stats.EType.ATKp)
+          {
+            <dt class="col-sm-2">
+              @Html.DisplayNameFor(model => model.Stats.ATKp)
+            </dt>
+            <dd class="col-sm-10">
+              @Html.TextBoxFor(model => model.Stats.ATKp)%
+            </dd>
+
+            if (stats.Value != Model.Main)
+            {
+              <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Stats.ATKpe)
+              </dt>
+              <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.Stats.ATKpe)%
+              </dd>
+            }
+          }
+          else if (stats.Value == Global.Stats.EType.DEF)
+          {
+            <dt class="col-sm-2">
+              @Html.DisplayNameFor(model => model.Stats.DEF)
+            </dt>
+            <dd class="col-sm-10">
+              @Html.TextBoxFor(model => model.Stats.DEF)
+            </dd>
+
+            if (stats.Value != Model.Main)
+            {
+              <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Stats.DEFe)
+              </dt>
+              <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.Stats.DEFe)
+              </dd>
+            }
+          }
+          else if (stats.Value == Global.Stats.EType.DEFp)
+          {
+            <dt class="col-sm-2">
+              @Html.DisplayNameFor(model => model.Stats.DEFp)
+            </dt>
+            <dd class="col-sm-10">
+              @Html.TextBoxFor(model => model.Stats.DEFp)%
+            </dd>
+
+            if (stats.Value != Model.Main)
+            {
+              <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Stats.DEFpe)
+              </dt>
+              <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.Stats.DEFpe)%
+              </dd>
+            }
+          }
+          else if (stats.Value == Global.Stats.EType.SPD)
+          {
+            <dt class="col-sm-2">
+              @Html.DisplayNameFor(model => model.Stats.SPD)
+            </dt>
+            <dd class="col-sm-10">
+              @Html.TextBoxFor(model => model.Stats.SPD)
+            </dd>
+
+            if (stats.Value != Model.Main)
+            {
+              <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Stats.SPDe)
+              </dt>
+              <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.Stats.SPDe)
+              </dd>
+            }
+          }
+          else if (stats.Value == Global.Stats.EType.CRATE)
+          {
+            <dt class="col-sm-2">
+              @Html.DisplayNameFor(model => model.Stats.CRATE)
+            </dt>
+            <dd class="col-sm-10">
+              @Html.TextBoxFor(model => model.Stats.CRATE)%
+            </dd>
+
+            if (stats.Value != Model.Main)
+            {
+              <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Stats.CRATEe)
+              </dt>
+              <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.Stats.CRATEe)%
+              </dd>
+            }
+          }
+          else if (stats.Value == Global.Stats.EType.CDMG)
+          {
+            <dt class="col-sm-2">
+              @Html.DisplayNameFor(model => model.Stats.CDMG)
+            </dt>
+            <dd class="col-sm-10">
+              @Html.TextBoxFor(model => model.Stats.CDMG)%
+            </dd>
+
+            if (stats.Value != Model.Main)
+            {
+              <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Stats.CDMGe)
+              </dt>
+              <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.Stats.CDMGe)%
+              </dd>
+            }
+          }
+          else if (stats.Value == Global.Stats.EType.RESIST)
+          {
+            <dt class="col-sm-2">
+              @Html.DisplayNameFor(model => model.Stats.RESIST)
+            </dt>
+            <dd class="col-sm-10">
+              @Html.TextBoxFor(model => model.Stats.RESIST)
+            </dd>
+
+            if (stats.Value != Model.Main)
+            {
+              <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Stats.RESISTe)
+              </dt>
+              <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.Stats.RESISTe)
+              </dd>
+            }
+          }
+          else if (stats.Value == Global.Stats.EType.ACC)
+          {
+            <dt class="col-sm-2">
+              @Html.DisplayNameFor(model => model.Stats.ACC)
+            </dt>
+            <dd class="col-sm-10">
+              @Html.TextBoxFor(model => model.Stats.ACC)
+            </dd>
+
+            if (stats.Value != Model.Main)
+            {
+              <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Stats.ACCe)
+              </dt>
+              <dd class="col-sm-10">
+                @Html.TextBoxFor(model => model.Stats.ACCe)
+              </dd>
+            }
+          }
+          else if (stats.Value == Global.Stats.EType.NONE)
+          {
+            <dt class="col-sm-2">
+              Not yet unlocked
+            </dt>
+            <dd class="col-sm-10">
+
+            </dd>
+          }
+        }
+      }
+    </dl>
+    <input type="submit" value="Save" />
+    //@Html.ActionLink("Save", "Details", new { Model })
+  }
+</div>
+<div>
+  <a asp-action="Index">Back to List</a>
+</div>
