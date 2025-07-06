@@ -14,5 +14,5 @@ def search_airport(query: str) -> List[Airport]:
     return [
         ref
         for aname, ref in Airport.__members__.items()
-        if query.lower() in aname.lower()
+        if query.replace(' ', '_').lower() in aname.lower()
     ]

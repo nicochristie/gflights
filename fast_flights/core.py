@@ -1,5 +1,7 @@
+from datetime import datetime, timedelta
 from typing import List, Literal, Optional
 
+from flask import jsonify
 from selectolax.lexbor import LexborHTMLParser, LexborNode
 
 from .schema import Flight, Result
@@ -8,13 +10,25 @@ from .filter import TFSData
 from .fallback_playwright import fallback_playwright_fetch
 from .primp import Client, Response
 
-
 def fetch(params: dict) -> Response:
     client = Client(impersonate="chrome_126", verify=False)
-    res = client.get("https://www.google.com/travel/flights", params=params)
+
+    # Generate UTC timestamp in ISO format
+    timestamp = (datetime.utcnow() - timedelta(minutes=5)).isoformat()
+    
+    # Construct the cookie value
+    # https://stackoverflow.com/a/78115353 credit where credit is due
+    cookies = {
+        "CONSENT": "PENDING+987",
+        "SOCS": "CAESHAgBEhJnd3NfMjAyMzA4MTAtMF9SQzIaAmRlIAEaBgiAo_CmBg"
+    }
+    print(cookies)
+
+    res = client.get("https://www.google.com/travel/flights", params=params, cookies=cookies)
+    print(f"Queried URL: {res.url}")
+    print(f'fetch result: {res.status_code}')
     assert res.status_code == 200, f"{res.status_code} Result: {res.text_markdown}"
     return res
-
 
 def get_flights_from_filter(
     filter: TFSData,
@@ -35,6 +49,7 @@ def get_flights_from_filter(
         try:
             res = fetch(params)
         except AssertionError as e:
+            print(f'{mode} fetch failed')
             if mode == "fallback":
                 res = fallback_playwright_fetch(params)
             else:
