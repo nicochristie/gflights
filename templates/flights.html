@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flight search results</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 0em; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #F4F4F4; }
+        .best { background-color: #e0ffe0; }
+        .collapsible {
+            background-color: #003Bff;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .active, .collapsible:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            display: none;
+            overflow: hidden;
+        }
+        .content.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flight results</h1>
+    <p>{{ flight_plan }}</p>
+    <button class="collapsible active">Best flights</button>
+    <div class="content show">
+        <table>
+            <thead>
+                <tr>
+                    <th>Airline</th>
+                    <th>Departure</th>
+                    <th>Arrival</th>
+                    <th>Duration</th>
+                    <th>Stops</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for flight in flights if flight.is_best %}
+                <tr class="best">
+                    <td>{{ flight.name }}</td>
+                    <td>{{ flight.departure }}</td>
+                    <td>{{ flight.arrival }}</td>
+                    <td>{{ flight.duration }}</td>
+                    <td>{{ flight.stops }}</td>
+                    <td>{{ flight.price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <button class="collapsible">Other flights</button>
+    <div class="content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Airline</th>
+                    <th>Departure</th>
+                    <th>Arrival</th>
+                    <th>Duration</th>
+                    <th>Stops</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for flight in flights if not flight.is_best %}
+                <tr>
+                    <td>{{ flight.name }}</td>
+                    <td>{{ flight.departure }}</td>
+                    <td>{{ flight.arrival }}</td>
+                    <td>{{ flight.duration }}</td>
+                    <td>{{ flight.stops }}</td>
+                    <td>{{ flight.price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const collapsibles = document.querySelectorAll(".collapsible");
+            collapsibles.forEach(button => {
+                button.addEventListener("click", () => {
+                    button.classList.toggle("active");
+                    const content = button.nextElementSibling;
+                    content.classList.toggle("show");
+                });
+            });
+        });
+    </script>
+</body>
+</html>

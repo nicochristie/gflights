@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flight search results</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        label { display: block; margin-top: 10px; }
+        select, input[type="date"] {
+            padding: 8px;
+            width: 250px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flight search</h1>
+    <form action="/search" method="get">
+        <label for="airportFrom">From</label>
+        <select id="airportFrom" name="airportFrom">
+            {% for name, code in airports %}
+                <option value="{{ code }}">{{ name.replace('_', ' ').title() }} {{ code }}</option>
+            {% endfor %}
+        </select>
+        <label for="airportTo">To</label>
+        <select id="airportTo" name="airportTo">
+            {% for name, code in airports %}
+                <option value="{{ code }}">{{ name.replace('_', ' ').title() }} {{ code }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="departureRangeFrom">Min departure date:</label>
+        <input type="date" id="departureRangeFrom" name="departureRangeFrom" required>
+
+        <label for="departureRangeTo">Max departure date:</label>
+        <input type="date" id="departureRangeTo" name="departureRangeTo" required>
+
+        <label for="countAdults">Adults:</label>
+        <input type="number" id="countAdults" name="countAdults" required>
+
+        <br><br><button type="submit">Start seach</button>
+    </form>
+</body>
+</html>

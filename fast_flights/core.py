@@ -22,11 +22,9 @@ def fetch(params: dict) -> Response:
         "CONSENT": "PENDING+987",
         "SOCS": "CAESHAgBEhJnd3NfMjAyMzA4MTAtMF9SQzIaAmRlIAEaBgiAo_CmBg"
     }
-    print(cookies)
+    #print(cookies)
 
     res = client.get("https://www.google.com/travel/flights", params=params, cookies=cookies)
-    print(f"Queried URL: {res.url}")
-    print(f'fetch result: {res.status_code}')
     assert res.status_code == 200, f"{res.status_code} Result: {res.text_markdown}"
     return res
 

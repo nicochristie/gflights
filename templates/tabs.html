@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flight Results</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .tabs { display: flex; gap: 0px; margin-bottom: 0px; }
+    .tab-button {
+      padding: 10px 20px;
+      background: #eee;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+    .tab-button.active {
+      background: #007BFF;
+      color: white;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 0em; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background-color: #f4f4f4; }
+    .best { background-color: #e0ffe0; }
+
+    .collapsible {
+      background-color: #007BFF;
+      color: white;
+      cursor: pointer;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 16px;
+      margin-top: 0px;
+    }
+    .active-collapsible, .collapsible:hover {
+      background-color: #0056b3;
+    }
+    .content {
+      display: none;
+      overflow: hidden;
+    }
+    .content.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Flight Results</h1>
+
+  <p>{{ flights_search }}</p>
+
+  <div class="tabs">
+    {% for query in queries %}
+      <button class="tab-button {% if loop.first %}active{% endif %}" data-tab="tab{{ loop.index }}">{{ query.label }}</button>
+    {% endfor %}
+  </div>
+
+  {% for query in queries %}
+  <div class="tab-content {% if loop.first %}active{% endif %}" id="tab{{ loop.index }}">
+    <button class="collapsible active-collapsible">Best Flights</button>
+    <div class="content show">
+      <table>
+        <thead>
+          <tr>
+            <th>Best</th><th>Airline</th><th>Departure</th><th>Arrival</th>
+            <!--<th>Arrival time ahead</th>-->
+            <th>Duration</th><th>Stops</th><th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for flight in query.flights if flight.is_best %}
+          <tr class="best">
+            <td style="min-width: 70px;">✔</td>
+            <td style="width: 100%; padding-left: 40px; text-align: left;">{{ flight.name }}</td>
+            <td style="min-width: 250px; ">{{ flight.departure }}</td>
+            <td style="min-width: 250px;">{{ flight.arrival }}</td>
+            <!--<td style="min-width: 250px;">{{ flight.arrival_time_ahead }}</td>-->
+            <td style="min-width: 150px;">{{ flight.duration }}</td>
+            <td style="min-width: 70px;">{{ flight.stops }}</td>
+            <td style="min-width: 100px;">{{ flight.price }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <button class="collapsible">Other Flights</button>
+    <div class="content">
+      <table>
+        <thead>
+          <tr>
+            <th>Best</th><th>Airline</th><th>Departure</th><th>Arrival</th>
+            <!--<th>Arrival time ahead</th>-->
+            <th>Duration</th><th>Stops</th><th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for flight in query.flights if not flight.is_best %}
+          <tr>
+            <td style="min-width: 70px;"></td>
+            <td style="width: 100%; padding-left: 40px; text-align: left;">{{ flight.name }}</td>
+            <td style="min-width: 250px; ">{{ flight.departure }}</td>
+            <td style="min-width: 250px;">{{ flight.arrival }}</td>
+            <!--<td style="min-width: 250px;">{{ flight.arrival_time_ahead }}</td>-->
+            <td style="min-width: 150px;">{{ flight.duration }}</td>
+            <td style="min-width: 70px;">{{ flight.stops }}</td>
+            <td style="min-width: 100px;">{{ flight.price }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endfor %}
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Tabs
+      const tabButtons = document.querySelectorAll(".tab-button");
+      const tabContents = document.querySelectorAll(".tab-content");
+
+      tabButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          tabButtons.forEach(btn => btn.classList.remove("active"));
+          tabContents.forEach(tab => tab.classList.remove("active"));
+
+          button.classList.add("active");
+          document.getElementById(button.dataset.tab).classList.add("active");
+        });
+      });
+
+      // Collapsibles
+      const collapsibles = document.querySelectorAll(".collapsible");
+      collapsibles.forEach(button => {
+        button.addEventListener("click", () => {
+          button.classList.toggle("active-collapsible");
+          const content = button.nextElementSibling;
+          content.classList.toggle("show");
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
