@@ -91,13 +91,13 @@
     <button class="collapsible">Other Flights</button>
     <div class="content">
       <table>
-        <thead>
+        <!--<thead>
           <tr>
             <th>Best</th><th>Airline</th><th>Departure</th><th>Arrival</th>
-            <!--<th>Arrival time ahead</th>-->
+            <th>Arrival time ahead</th>
             <th>Duration</th><th>Stops</th><th>Price</th>
           </tr>
-        </thead>
+        </thead>-->
         <tbody>
           {% for flight in query.flights if not flight.is_best %}
           <tr>
